@@ -29,6 +29,21 @@ def player(board):
     o Any return value is acceptable if a terminal board is provided as input (i.e., the game is
     already over)
     """
+    tempX = 0
+    tempO = 0
+    for spot in board:
+        if spot == 'X':
+            tempX += 1
+        if spot == 'O':
+            tempO += 1
+    
+    if(board == initial_state):
+        return X
+    elif(tempX < tempO):
+        return O
+    elif(tempX > tempO):
+        return X
+    
     raise NotImplementedError
 
 
@@ -44,8 +59,26 @@ def actions(board):
     o Possible moves are any cells on the board that do not already have an X or an O in them.
     o Any return value is acceptable if a terminal board is provided as input.
     """
+    
+    """ 
+    for i in row
+        for j in col
+            if spot[i][j] == EMPTY
+                add spot[i][j] to list
+    """
+    
+    emptySpots = []
+    for row, sublist in enumerate(board):
+        for column, item in enumerate(sublist):
+            if item == EMPTY:
+                emptySpots.append((row, column))
+    
+    #print(emptySpots)
+    
     raise NotImplementedError
 
+board = initial_state()
+actions(board)
 
 def result(board, action):
     """
