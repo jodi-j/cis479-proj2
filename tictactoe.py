@@ -3,6 +3,7 @@ Tic Tac Toe Player
 """
 
 import math
+import copy
 
 X = "X"
 O = "O"
@@ -37,7 +38,7 @@ def player(board):
         if spot == 'O':
             tempO += 1
     
-    if(board == initial_state):
+    if(board == initial_state()):
         return X
     elif(tempX < tempO):
         return O
@@ -60,13 +61,6 @@ def actions(board):
     o Any return value is acceptable if a terminal board is provided as input.
     """
     
-    """ 
-    for i in row
-        for j in col
-            if spot[i][j] == EMPTY
-                add spot[i][j] to list
-    """
-    
     emptySpots = []
     for row, sublist in enumerate(board):
         for column, item in enumerate(sublist):
@@ -74,11 +68,9 @@ def actions(board):
                 emptySpots.append((row, column))
     
     #print(emptySpots)
+    return(emptySpots)
     
     raise NotImplementedError
-
-board = initial_state()
-actions(board)
 
 def result(board, action):
     """
@@ -96,8 +88,25 @@ def result(board, action):
     function. You’ll likely want to make a deep copy of the board first before making any
     changes.
     """
+
+    newBoard = copy.deepcopy(board)
+    row, col = action
+    if(newBoard[row][col] == EMPTY):
+        newBoard[row][col] = player(board)
+    elif(newBoard[row][col] != EMPTY): 
+        raise ValueError #TO DO: SPECIFY ERROR TYPE
+    
+    #print(newBoard)
+    
+    return newBoard
     raise NotImplementedError
 
+
+"""TESTING THINGS FOR OURSELVES!"""
+board = initial_state()
+actions(board)
+newBoard = result(board, (0, 0))
+result(newBoard, (0, 0))
 
 def winner(board):
     """
