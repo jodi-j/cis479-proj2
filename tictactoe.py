@@ -9,7 +9,6 @@ X = "X"
 O = "O"
 EMPTY = None
 
-
 def initial_state():
     """
     Returns starting state of the board.
@@ -17,7 +16,6 @@ def initial_state():
     return [[EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
-
 
 def player(board):
     """
@@ -50,7 +48,6 @@ def player(board):
     return currPlayer
     
     raise NotImplementedError
-
 
 def actions(board):
     """
@@ -103,8 +100,6 @@ def result(board, action):
     for row in newBoard:
         print(row)
     
-    print('\n')
-    
     return newBoard
     raise NotImplementedError
 
@@ -147,31 +142,102 @@ def winner(board):
     tempO = 0
     winner = ""
     
+    #count of x and o on board to see if win is possible
     for row in board:
         for col in row:
             tempList.append(col)
-            if(col == 'X'):
+            if col == 'X':
                 tempX += 1
-            elif(col == 'O'):
+            elif col == 'O':
                 tempO += 1
     
-    print(tempList)
+    '''
+    #checks if there is a winner in a row
+    for row in board:
+        if len(set(row)) == 1:
+            print(set(row))
+            if set(row) == 'X':
+                winner = X
+            elif set(row) == 'O':
+                winner = O
+            elif set(row) == None:
+                exit()
+            else:
+                winner = None
+    '''
     
-    return None
+    if tempX >= 3:
+        winner = X
+    elif tempO >= 3:
+        winner = O
+    elif tempX < 3 and tempO < 3: #neither X or O have 3 in a row
+        winner = None
+    
+    print("Current Winner:", winner, '\n')
+    return winner
     
     raise NotImplementedError
 
+def winnerTemp(board):
+    winner = None
+
+    # Horizontal
+    for i in range(3):
+        if board[i][0] == 'X' and board[i][0] == board[i][1] == board[i][2]:
+            winner = X
+        elif board[i][0] == 'O' and board[i][0] == board[i][1] == board[i][2]:
+            winner = O
+    # Vertical
+    for i in range(3):
+        if board[0][i] == 'X' and board[0][i] == board[1][i] == board[2][i]:
+            winner = X
+        elif board[0][i] == 'O' and board[0][i] == board[1][i] == board[2][i]:
+            winner = O
+    # Diagonal
+    if board[0][0] == 'X' and board[0][0] == board[1][1] == board[2][2]:
+        winner = X
+    elif  board[0][0] == 'O' and board[0][0] == board[1][1] == board[2][2]:
+        winner = O
+
+    if board[2][0] == 'X' and board[2][0] == board[1][1] == board[0][2]:
+        winner = X
+    elif board[2][0] == 'O' and board[2][0] == board[1][1] == board[0][2]:
+        winner = O
+    
+
+
+    print("Current Winner:", winner, '\n')
+    return winner
+
+
 """TESTING THINGS FOR OURSELVES!"""
 board = initial_state()
+#x moves 1
 player(board)
 actions(board)
-newBoard = result(board, (0, 0))
-
-
-player(newBoard)
-newerBoard = result(newBoard, (1, 0))
+xmove1 = result(board, (0, 0))
+winnerTemp(xmove1)
+#o moves 1
+player(xmove1)
+actions(xmove1)
+omove1 = result(xmove1, (1, 0))
+winnerTemp(omove1)
+#x moves 2
+player(omove1)
+actions(omove1)
+xmove2 = result(omove1, (1, 1))
+winnerTemp(xmove2)
+#o moves 2
+player(xmove2)
+actions(xmove2)
+omove2 = result(xmove2, (2,1))
+winnerTemp(omove2)
+#x moves 3 and wins
+player(omove2)
+actions(omove2)
+xmove3 = result(omove2, (2, 2))
+winnerTemp(xmove3)
 exit()
-winner(newerBoard)
 
 def terminal(board):
     """
@@ -209,4 +275,17 @@ def minimax(board):
     o If the board is a terminal board, the minimax function should return None.
 
     """
+
+    #Minimax simulates future moves until an end state is reached. Check this at the start of each minimax
+
+    if(terminal(board)):
+        return None
+    
+    if(player(board) == X):
+        for row in board:
+            for col in row:
+                if(board[row][col] == EMPTY):
+                    board[row][col] = X
+                    score = minimax(board)
+
     raise NotImplementedError
