@@ -32,18 +32,22 @@ def player(board):
     """
     tempX = 0
     tempO = 0
-    for spot in board:
-        if spot == 'X':
-            tempX += 1
-        if spot == 'O':
-            tempO += 1
+    currPlayer = X
+    for row in board:
+        for col in row:
+            if(col == 'X'):
+                tempX += 1
+            elif(col == 'O'):
+                tempO += 1
     
     if(board == initial_state()):
-        return X
+        currPlayer = X
     elif(tempX < tempO):
-        return O
+        currPlayer = X
     elif(tempX > tempO):
-        return X
+        currPlayer = O
+    
+    return currPlayer
     
     raise NotImplementedError
 
@@ -67,8 +71,7 @@ def actions(board):
             if item == EMPTY:
                 emptySpots.append((row, column))
     
-    #print(emptySpots)
-    return(emptySpots)
+    return emptySpots
     
     raise NotImplementedError
 
@@ -92,21 +95,18 @@ def result(board, action):
     newBoard = copy.deepcopy(board)
     row, col = action
     if(newBoard[row][col] == EMPTY):
-        newBoard[row][col] = player(board)
+        newBoard[row][col] = player(newBoard)
     elif(newBoard[row][col] != EMPTY): 
-        raise ValueError #TO DO: SPECIFY ERROR TYPE
+        print("WRONG") #TO DO: raise specific error for pygame visually
     
-    #print(newBoard)
+    
+    for row in newBoard:
+        print(row)
+    
+    print('\n')
     
     return newBoard
     raise NotImplementedError
-
-
-"""TESTING THINGS FOR OURSELVES!"""
-board = initial_state()
-actions(board)
-newBoard = result(board, (0, 0))
-result(newBoard, (0, 0))
 
 def winner(board):
     """
@@ -123,8 +123,55 @@ def winner(board):
     o If there is no winner of the game (either because the game is in progress, or because it
     ended in a tie), the function should return None.
     """
+    
+    """
+    win configurations
+    diagonal left to right win
+    [x] [] [] [] [x] [] [] [] [x]
+    
+    horizontal wins
+    [x] [x] [x] [] [] [] [] [] []
+    [] [] [] [x] [x] [x] [] [] []
+    [] [] [] [] [] [] [x] [x] [x]
+    
+    diagonal right to left win
+    [] [] [x] [] [x] [] [x] [] []
+    
+    vertical wins
+    [x] [] [] [x] [] [] [x] [] []
+    [] [x] [] [] [x] [] [] [x] []
+    [] [] [x] [] [] [x] [] [] [x]
+    """
+    tempList = []
+    tempX = 0
+    tempO = 0
+    winner = ""
+    
+    for row in board:
+        for col in row:
+            tempList.append(col)
+            if(col == 'X'):
+                tempX += 1
+            elif(col == 'O'):
+                tempO += 1
+    
+    print(tempList)
+    
+    return None
+    
     raise NotImplementedError
 
+"""TESTING THINGS FOR OURSELVES!"""
+board = initial_state()
+player(board)
+actions(board)
+newBoard = result(board, (0, 0))
+
+
+player(newBoard)
+newerBoard = result(newBoard, (1, 0))
+exit()
+winner(newerBoard)
 
 def terminal(board):
     """
