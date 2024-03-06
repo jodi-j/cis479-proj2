@@ -210,34 +210,6 @@ def winnerTemp(board):
     return winner
 
 
-"""TESTING THINGS FOR OURSELVES!"""
-board = initial_state()
-#x moves 1
-player(board)
-actions(board)
-xmove1 = result(board, (0, 0))
-winnerTemp(xmove1)
-#o moves 1
-player(xmove1)
-actions(xmove1)
-omove1 = result(xmove1, (1, 0))
-winnerTemp(omove1)
-#x moves 2
-player(omove1)
-actions(omove1)
-xmove2 = result(omove1, (1, 1))
-winnerTemp(xmove2)
-#o moves 2
-player(xmove2)
-actions(xmove2)
-omove2 = result(xmove2, (2,1))
-winnerTemp(omove2)
-#x moves 3 and wins
-player(omove2)
-actions(omove2)
-xmove3 = result(omove2, (2, 2))
-winnerTemp(xmove3)
-exit()
 
 def terminal(board):
     """
@@ -251,12 +223,16 @@ def terminal(board):
     """
     if (winner(board) != None):
         return False
+    
     open_spots = 0
     for i in range(3):
         for j in range(3):
             if board[i][j] == '':
                 open_spots += 1
-
+    if (open_spots == 0):
+        return True
+    else: 
+        return False
     raise NotImplementedError
 
 
@@ -269,6 +245,12 @@ def utility(board):
     has ended in a tie, the utility is 0.
     o You may assume utility will only be called on a board if terminal(board) is True.
     """
+    if (winner(board) == X):
+        return 1
+    elif (winner(board) == O):
+        return -1
+    elif (winner(board) == None):
+        return 0
     raise NotImplementedError
 
 
@@ -297,3 +279,32 @@ def minimax(board):
                     score = minimax(board)
 
     raise NotImplementedError
+
+"""TESTING THINGS FOR OURSELVES!"""
+board = initial_state()
+#x moves 1
+player(board)
+actions(board)
+xmove1 = result(board, (0, 0))
+winnerTemp(xmove1)
+#o moves 1
+player(xmove1)
+actions(xmove1)
+omove1 = result(xmove1, (1, 0))
+winnerTemp(omove1)
+#x moves 2
+player(omove1)
+actions(omove1)
+xmove2 = result(omove1, (1, 1))
+winnerTemp(xmove2)
+#o moves 2
+player(xmove2)
+actions(xmove2)
+omove2 = result(xmove2, (2,1))
+winnerTemp(omove2)
+#x moves 3 and wins
+player(omove2)
+actions(omove2)
+xmove3 = result(omove2, (2, 2))
+winnerTemp(xmove3)
+exit()
