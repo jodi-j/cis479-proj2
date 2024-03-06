@@ -249,6 +249,14 @@ def terminal(board):
     been filled without anyone winning, the function should return True.
     o Otherwise, the function should return False if the game is still in progress
     """
+    if (winner(board) != None):
+        return False
+    open_spots = 0
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == '':
+                open_spots += 1
+
     raise NotImplementedError
 
 
