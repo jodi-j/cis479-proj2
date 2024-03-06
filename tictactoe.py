@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+import numpy as np
 
 X = "X"
 O = "O"
@@ -118,60 +119,44 @@ def winner(board):
     o If there is no winner of the game (either because the game is in progress, or because it
     ended in a tie), the function should return None.
     """
+    winner = None
     
-    """
-    win configurations
-    diagonal left to right win
-    [x] [] [] [] [x] [] [] [] [x]
-    
-    horizontal wins
-    [x] [x] [x] [] [] [] [] [] []
-    [] [] [] [x] [x] [x] [] [] []
-    [] [] [] [] [] [] [x] [x] [x]
-    
-    diagonal right to left win
-    [] [] [x] [] [x] [] [x] [] []
-    
-    vertical wins
-    [x] [] [] [x] [] [] [x] [] []
-    [] [x] [] [] [x] [] [] [x] []
-    [] [] [x] [] [] [x] [] [] [x]
-    """
-    tempList = []
-    tempX = 0
-    tempO = 0
-    winner = ""
-    
-    #count of x and o on board to see if win is possible
-    for row in board:
-        for col in row:
-            tempList.append(col)
-            if col == 'X':
-                tempX += 1
-            elif col == 'O':
-                tempO += 1
-    
-    '''
-    #checks if there is a winner in a row
+    #checks if there is winner in row
     for row in board:
         if len(set(row)) == 1:
-            print(set(row))
-            if set(row) == 'X':
+            if row[0] == 'X':
                 winner = X
-            elif set(row) == 'O':
+                break
+            elif row[0] == 'O':
                 winner = O
-            elif set(row) == None:
-                exit()
-            else:
-                winner = None
-    '''
-    
-    if tempX >= 3:
-        winner = X
-    elif tempO >= 3:
-        winner = O
-    elif tempX < 3 and tempO < 3: #neither X or O have 3 in a row
-        winner = None
+                break
+            
+    #check for win in columns
+    if winner != X and winner != O: #no winner found in rows
+        tempBoard =  [[board[0][0], board[1][0], board[2][0]],
+                      [board[0][1], board[1][1], board[2][1]],
+                      [board[0][2], board[1][2], board[2][2]],]
+        for row in tempBoard:
+            if len(set(row)) == 1:
+                if row[0] == 'X':
+                    winner = X
+                    break
+                elif row[0] == 'O':
+                    winner = O
+                    break
+                
+    #check for win in diagonals
+    if winner != X and winner != O: #no winner found in rows or columns
+        if board[0][0] == board[1][1] == board[2][2]:
+            if board[0][0] == 'X':
+                winner = X
+            elif board[0][0] == 'O':
+                winner = O
+        if board[0][2] == board[1][1] == board[2][0]:
+            if board[0][2] == 'X':
+                winner = X
+            elif board[0][2] == 'O':
+                winner = O
     
     print("Current Winner:", winner, '\n')
     return winner
@@ -183,29 +168,35 @@ board = initial_state()
 #x moves 1
 player(board)
 actions(board)
-xmove1 = result(board, (0, 0))
+xmove1 = result(board, (2, 0))
 winner(xmove1)
 #o moves 1
 player(xmove1)
 actions(xmove1)
-omove1 = result(xmove1, (1, 0))
+omove1 = result(xmove1, (0, 0))
 winner(omove1)
 #x moves 2
 player(omove1)
 actions(omove1)
-xmove2 = result(omove1, (0, 1))
+xmove2 = result(omove1, (1, 1))
 winner(xmove2)
 #o moves 2
 player(xmove2)
 actions(xmove2)
-omove2 = result(xmove2, (1,1))
+omove2 = result(xmove2, (1, 0))
 winner(omove2)
 #x moves 3 and wins
 player(omove2)
 actions(omove2)
 xmove3 = result(omove2, (0, 2))
 winner(xmove3)
-exit()
+'''
+#o moves 3 and wins
+player(xmove3)
+actions(xmove3)
+omove3 = result(xmove3, (2, 2))
+winner(omove3)
+'''
 
 def terminal(board):
     """
