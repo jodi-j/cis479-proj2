@@ -4,7 +4,6 @@ Tic Tac Toe Player
 
 import math
 import copy
-import numpy as np
 
 X = "X"
 O = "O"
@@ -147,11 +146,13 @@ def winner(board):
                 
     #check for win in diagonals
     if winner != X and winner != O: #no winner found in rows or columns
+        #left to right diagonal win
         if board[0][0] == board[1][1] == board[2][2]:
             if board[0][0] == 'X':
                 winner = X
             elif board[0][0] == 'O':
                 winner = O
+        #right to left diagonal win
         if board[0][2] == board[1][1] == board[2][0]:
             if board[0][2] == 'X':
                 winner = X
