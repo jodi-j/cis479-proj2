@@ -209,14 +209,34 @@ winner(omove3)
 '''
 
 def minimax(board):
-    """
-    Returns the optimal action for the current player on the board.
     
-    The minimax function should take a board as input and return the optimal move for the player
-    to move on that board.
-    o The move returned should be the optimal action (i, j) that is one of the allowable actions
-    on the board. If multiple moves are equally optimal, any of those moves is acceptable.
-    o If the board is a terminal board, the minimax function should return None.
+    #If the board is in a terminal state, there are no tuples to return
+    if terminal(board):
+        return None
 
-    """
+    if player(board) == X:
+        # For maximizing player (X), the AI's turn
+        best_value = -math.inf
+        best_action = None
+        for action in actions(board):
+            
+            value = min(result(board, action))
+            if value > best_value:
+                best_value = value
+                best_action = action
+        return best_action
+    else:
+       
+        best_value = math.inf
+        best_action = None
+        for action in actions(board):
+            
+            value = max(result(board, action))
+            if value < best_value:
+                best_value = value
+                best_action = action
+        return best_action
+
+
+
     raise NotImplementedError
