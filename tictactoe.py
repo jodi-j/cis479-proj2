@@ -172,34 +172,7 @@ def utility(board):
     raise NotImplementedError
 
 """TESTING THINGS FOR OURSELVES, DELETE FOR FINAL!"""
-board = initial_state()
-#x moves 1
-player(board)
-actions(board)
-xmove1 = result(board, (2, 0))
-winner(xmove1)
-#o moves 1
-player(xmove1)
-actions(xmove1)
-omove1 = result(xmove1, (0, 0))
-winner(omove1)
-#x moves 2
-player(omove1)
-actions(omove1)
-xmove2 = result(omove1, (1, 1))
-winner(xmove2)
-#o moves 2
-player(xmove2)
-actions(xmove2)
-omove2 = result(xmove2, (1, 0))
-winner(omove2)
-utility(omove2)
-#x moves 3 and wins
-player(omove2)
-actions(omove2)
-xmove3 = result(omove2, (0, 2))
-winner(xmove3)
-utility(xmove3)
+
 '''
 #o moves 3 and wins
 player(xmove3)
@@ -209,18 +182,18 @@ winner(omove3)
 '''
 
 def minimax(board):
-    
-    #If the board is in a terminal state, there are no tuples to return
     if terminal(board):
         return None
 
     if player(board) == X:
-        # For maximizing player (X), the AI's turn
         best_value = -math.inf
         best_action = None
+
         for action in actions(board):
             
-            value = min(result(board, action))
+            new_board = result(board, action)
+            
+            value = minimax_value(new_board, False)
             if value > best_value:
                 best_value = value
                 best_action = action
@@ -231,11 +204,34 @@ def minimax(board):
         best_action = None
         for action in actions(board):
             
-            value = max(result(board, action))
+            new_board = result(board, action)
+           
+            value = minimax_value(new_board, True)
             if value < best_value:
                 best_value = value
                 best_action = action
         return best_action
+
+def minimax_value(board, maximizing_player):
+    if terminal(board):
+        return utility(board)
+
+    if maximizing_player:
+        v = -math.inf
+        for action in actions(board):
+           
+            new_board = result(board, action)
+            
+            v = max(v, minimax_value(new_board, False))
+        return v
+    else:
+        v = math.inf
+        for action in actions(board):
+            
+            new_board = result(board, action)
+            
+            v = min(v, minimax_value(new_board, True))
+        return v
 
 
 
