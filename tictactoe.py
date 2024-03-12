@@ -73,9 +73,6 @@ def result(board, action):
     elif(newBoard[row][col] != EMPTY): #Spot user selects is not empty, returns an error
         raise ValueError
     
-    #FOR TESTING PURPOSES, DELETE IN FINAL
-    for row in newBoard:
-        print(row)
     
     return newBoard
 
@@ -127,8 +124,7 @@ def winner(board):
             elif board[0][2] == 'O':
                 winner = O
     
-    #FOR TESTING PURPOSES, DELETE IN FINAL
-    print("Current Winner:", winner, '\n')
+    
     return winner
     
     raise NotImplementedError
@@ -171,58 +167,58 @@ def utility(board):
     
     raise NotImplementedError
 
-"""TESTING THINGS FOR OURSELVES, DELETE FOR FINAL!"""
 
-'''
-#o moves 3 and wins
-player(xmove3)
-actions(xmove3)
-omove3 = result(xmove3, (2, 2))
-winner(omove3)
-'''
 
 def minimax(board):
-    if terminal(board):
+    
+    '''This function considers each available action from a given board state and runs minimax on each choice.
+    The action with the highest minimax value will be returned. The minimax algorithm is defined separately '''
+
+    if terminal(board): # No possible choices if the board is terminal
         return None
 
     if player(board) == X:
-        best_value = -math.inf
+        best_value = -math.inf 
         best_action = None
 
+        #Each possible action in the board needs to be considered
         for action in actions(board):
             
-            new_board = result(board, action)
+            new_board = result(board, action) #Create a new board to protect the current board from changes
             
-            value = minimax_value(new_board, False)
+            value = minimax_value(new_board, False) #Update the best value and best action
             if value > best_value:
                 best_value = value
                 best_action = action
         return best_action
     else:
        
-        best_value = math.inf
+        best_value = math.inf    #This code is from the perspective of the minimizing player
         best_action = None
         for action in actions(board):
             
             new_board = result(board, action)
            
-            value = minimax_value(new_board, True)
+            value = minimax_value(new_board, True) #Update the best value, which for the minimizer is the lowest value
             if value < best_value:
                 best_value = value
                 best_action = action
         return best_action
 
 def minimax_value(board, maximizing_player):
+    '''This function is recursive. Each generation of a board state leads to more possible board states to consider
+      for the Maximixing/Minimizing player. Once a game has ended, the utility value is returned, and scores
+    ripple back up the game tree to return the best choice for the maximixing player'''
     if terminal(board):
-        return utility(board)
+        return utility(board)           #When recursion has ended, the end state's value must be returned
 
     if maximizing_player:
         v = -math.inf
-        for action in actions(board):
+        for action in actions(board): #Consider each action
            
-            new_board = result(board, action)
+            new_board = result(board, action) #Generate the state that results from that action
             
-            v = max(v, minimax_value(new_board, False))
+            v = max(v, minimax_value(new_board, False)) #Recrusively generate more states based on an action for the opponent
         return v
     else:
         v = math.inf
