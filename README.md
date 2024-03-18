@@ -1,5 +1,5 @@
 # cis479-proj2
-Welcome to our Minimax AI Tic-Tac-Toe game! 
+Welcome to our Minimax AI Tic-Tac-Toe game!
 
 To install pygame, run in terminal:
   pip install pygame 
@@ -12,4 +12,4 @@ If you are getting an error that the environment is externally managed:
   myenv\Scripts\activate
   pip install pygame
 
-Program might take a few seconds to load on its first try.
+Once all necessary packages are installed, run the ```python runner.py``` command in order to play the game against the AI. The program may take a few seconds to load on its first try.
