@@ -12,3 +12,4 @@ If you are getting an error that the environment is externally managed:
   myenv\Scripts\activate
   pip install pygame
 
+Program might take a few seconds to load on its first try.
