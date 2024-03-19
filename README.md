@@ -12,4 +12,5 @@ If you are getting an error that the environment is externally managed:
   myenv\Scripts\activate
   pip install pygame
 
-Once all necessary packages are installed, run the ```python runner.py``` command in the terminal in order to play the game against the AI. The program may take a few seconds to load on its first try.
+Once all necessary packages are installed, run the ```python runner.py``` command in the terminal in order to play the game against the AI. 
+If you choose to play as O, the AI will take a few seconds to make its first move as player X.
