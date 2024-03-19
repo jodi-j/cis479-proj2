@@ -9,7 +9,6 @@ X = "X"
 O = "O"
 EMPTY = None
 
-
 def initial_state():
     """
     Returns starting state of the board.
@@ -18,7 +17,7 @@ def initial_state():
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
     
-
+    
 def player(board):
     """
     Returns player who has the next turn on a board.
@@ -43,8 +42,6 @@ def player(board):
         currPlayer = O
     
     return currPlayer
-    
-    raise NotImplementedError
 
 
 def actions(board):
@@ -58,8 +55,6 @@ def actions(board):
             if item == EMPTY:
                 emptySpots.append((row, column))
     return emptySpots
-    
-    raise NotImplementedError
 
 
 def result(board, action):
@@ -71,16 +66,12 @@ def result(board, action):
     
     #Changes board based on user input.
     row, col = action
-    if not isinstance(row, int) or not isinstance(col, int):
-        raise TypeError("Row and column indices must be integers.")
     if(newBoard[row][col] == EMPTY): #Spot user selects is empty, places either X or O
         newBoard[row][col] = player(newBoard)
     elif(newBoard[row][col] != EMPTY): #Spot user selects is not empty, returns an error
         raise ValueError("Spot selected is not empty.")
     
     return newBoard
-
-    raise NotImplementedError
 
 
 def winner(board):
@@ -129,10 +120,7 @@ def winner(board):
             elif board[0][2] == 'O':
                 winner = O
     
-    
     return winner
-    
-    raise NotImplementedError
 
 
 def terminal(board):
@@ -153,8 +141,6 @@ def terminal(board):
         return True
     else:
         return False
-    
-    raise NotImplementedError
 
 
 def utility(board):
@@ -171,8 +157,6 @@ def utility(board):
         utility = 0
         
     return utility
-    
-    raise NotImplementedError
 
 
 def minimax(board):
@@ -180,13 +164,16 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
 
     """
+    #The game is over and terminal(board) == True
     if terminal(board):
         return None, utility(board)
     
     currPlayer = player(board)
     best_action = None
-    if currPlayer == X:  # Maximizing player
+    #Maximizing Player
+    if currPlayer == X: 
         best_value = -math.inf
+        #Checks every available action tuple returned by the actions(board) function
         for action in actions(board):
             new_board = result(board, action)
             _, value = minimax(new_board)
@@ -194,8 +181,10 @@ def minimax(board):
                 best_value = value
                 best_action = action
         return best_action, best_value
-    else:  # Minimizing player
+    #Minimizing Player
+    else: 
         best_value = math.inf
+        #Checks every available action tuple returned by the actions(board) function
         for action in actions(board):
             new_board = result(board, action)
             _, value = minimax(new_board)
@@ -203,5 +192,3 @@ def minimax(board):
                 best_value = value
                 best_action = action
         return best_action, best_value
-    
-    raise NotImplementedError
